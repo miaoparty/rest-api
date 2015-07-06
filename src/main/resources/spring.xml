@@ -7,13 +7,14 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
                         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
-	<context:component-scan base-package="com.miaoparty.rest.api.service" />
+	<context:component-scan base-package="com.miaoparty.rest.api.service.impl" />
+	<context:component-scan base-package="com.miaoparty.rest.api.dao.impl" />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://yinjiangsheng.jios.org:3306/pethub" />
-		<property name="username" value="pethub" />
-		<property name="password" value="dpethub" />
+		<property name="url" value="jdbc:mysql://116.227.27.249:3306/miaoparty" />
+		<property name="username" value="miaoparty" />
+		<property name="password" value="miaoparty!admin" />
 	</bean>
 
 
@@ -31,7 +32,7 @@
 		<!-- ORM [注解] 配置实体包 -->
 		<property name="packagesToScan">
 			<list>
-				<value>com.pethub.entity</value>
+				<value>com.miaoparty.rest.api.entity</value>
 			</list>
 		</property>
 	</bean>
@@ -40,12 +41,12 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-
 	<!-- 使用注解配置事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-
-
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	<jaxrs:server id="apiServer" address="/">
 		<jaxrs:serviceBeans>

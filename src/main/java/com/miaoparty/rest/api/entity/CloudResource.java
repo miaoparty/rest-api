@@ -1,16 +1,21 @@
 package com.miaoparty.rest.api.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+
 public class CloudResource {
-	String id;
+	@Id
+	@Column(name = "ID")
+	int id;
 	String name;
 	String url;
 	String fileExt;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

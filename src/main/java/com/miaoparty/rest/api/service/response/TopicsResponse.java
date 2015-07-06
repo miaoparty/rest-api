@@ -1,25 +1,24 @@
 package com.miaoparty.rest.api.service.response;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class TopicsResponse {
-	String count;
-	Set<TopicResponse> topics = new HashSet<TopicResponse>();
+	int count;
+	List<TopicResponse> topics;
 
-	public String getCount() {
+	public int getCount() {
 		return count;
 	}
 
-	public void setCount(String count) {
+	public void setCount(int count) {
 		this.count = count;
 	}
 
-	public Set<TopicResponse> getTopics() {
+	public List<TopicResponse> getTopics() {
 		return topics;
 	}
 
-	public void setTopics(Set<TopicResponse> topics) {
+	public void setTopics(List<TopicResponse> topics) {
 		this.topics = topics;
 	}
 

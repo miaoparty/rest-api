@@ -1,0 +1,1 @@
+create table TOPIC (ID int(10) not null auto_increment primary key, AUTHOR varchar(50), REFERENCE varchar(100), DATE timestamp, CATEGORY_ID int(10), TITLE varchar(200), CONTENT text);
