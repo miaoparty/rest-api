@@ -7,8 +7,9 @@
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
                         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
-	<context:component-scan base-package="com.miaoparty.rest.api.service.impl" />
 	<context:component-scan base-package="com.miaoparty.rest.api.dao.impl" />
+	<context:component-scan base-package="com.miaoparty.rest.api.biz.impl" />
+	<context:component-scan base-package="com.miaoparty.rest.api.service.impl" />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -26,6 +27,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>

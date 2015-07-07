@@ -16,7 +16,7 @@ import com.miaoparty.rest.api.service.response.TopicsResponse;
 public interface TopicService {
 	@GET
 	@Path("/topic/{topicId}")
-	public TopicResponse getTopic(@PathParam("topicId") String topicId);
+	public TopicResponse getTopic(@PathParam("topicId") int topicId);
 
 	@GET
 	@Path("/topics")

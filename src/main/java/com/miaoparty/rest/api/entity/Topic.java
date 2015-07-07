@@ -11,8 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TOPIC")
-@NamedQueries({ @NamedQuery(name = "getTopic", query = "select t FROM TOPIC t where t.id = : topicId"), 
-	            @NamedQuery(name = "getTopics", query = "select t FROM TOPIC t"),
+@NamedQueries({ @NamedQuery(name = "getTopic", query = "select t from Topic t where t.id = :topicId"), @NamedQuery(name = "getTopics", query = "select t from Topic t"),
 
 })
 public class Topic {
