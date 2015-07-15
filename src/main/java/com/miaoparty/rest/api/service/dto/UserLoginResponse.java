@@ -1,10 +1,10 @@
-package com.miaoparty.rest.api.service.response;
+package com.miaoparty.rest.api.service.dto;
 
 /**
  * @author Jason
  *
  */
-public class LoginResponse {
+public class UserLoginResponse {
 	private String token;
 	private String message;
 

@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-                        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+	<context:component-scan base-package="com.miaoparty.rest.api.controller" />
 	<context:component-scan base-package="com.miaoparty.rest.api.dao.impl" />
 	<context:component-scan base-package="com.miaoparty.rest.api.biz.impl" />
 	<context:component-scan base-package="com.miaoparty.rest.api.service.impl" />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://116.227.27.249:3306/miaoparty" />
+		<property name="url" value="jdbc:mysql://db4free.net:3306/miaoparty" />
 		<property name="username" value="miaoparty" />
 		<property name="password" value="miaoparty!admin" />
 	</bean>
 
-
-	<!-- Session 工厂配置 -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource"></ref>
@@ -29,41 +28,25 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
 			</props>
 		</property>
-		<!-- ORM [注解] 配置实体包 -->
 		<property name="packagesToScan">
 			<list>
 				<value>com.miaoparty.rest.api.entity</value>
 			</list>
 		</property>
 	</bean>
-	<!-- 配置事务管理器 -->
+
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<!-- 使用注解配置事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
-		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
-	<jaxrs:server id="apiServer" address="/">
-		<jaxrs:serviceBeans>
-			<ref bean="loginService" />
-			<ref bean="cloudResourceService" />
-			<ref bean="topicService" />
-		</jaxrs:serviceBeans>
-		<jaxrs:extensionMappings>
-			<entry key="json" value="application/json" />
-		</jaxrs:extensionMappings>
-		<jaxrs:features>
-			<cxf:logging />
-		</jaxrs:features>
-		<jaxrs:providers>
-			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
-		</jaxrs:providers>
-	</jaxrs:server>
+	<mvc:annotation-driven />
 </beans>

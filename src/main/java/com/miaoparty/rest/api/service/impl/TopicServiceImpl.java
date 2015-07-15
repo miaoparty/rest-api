@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import com.miaoparty.rest.api.biz.TopicBiz;
 import com.miaoparty.rest.api.entity.Topic;
 import com.miaoparty.rest.api.service.TopicService;
-import com.miaoparty.rest.api.service.response.TopicResponse;
-import com.miaoparty.rest.api.service.response.TopicsResponse;
+import com.miaoparty.rest.api.service.dto.TopicResponse;
+import com.miaoparty.rest.api.service.dto.TopicsResponse;
 
 /**
  * @author Jason

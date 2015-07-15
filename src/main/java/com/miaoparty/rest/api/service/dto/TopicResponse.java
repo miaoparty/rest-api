@@ -1,4 +1,4 @@
-package com.miaoparty.rest.api.service.response;
+package com.miaoparty.rest.api.service.dto;
 
 import java.util.Date;
 

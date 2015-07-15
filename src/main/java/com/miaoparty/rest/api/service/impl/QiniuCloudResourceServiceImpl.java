@@ -1,23 +1,19 @@
 package com.miaoparty.rest.api.service.impl;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.activation.DataHandler;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.miaoparty.rest.api.entity.CloudResource;
 import com.miaoparty.rest.api.entity.CloudResourceType;
 import com.miaoparty.rest.api.service.CloudResourceService;
+import com.miaoparty.rest.api.service.dto.CloudResourceResponse;
 import com.qiniu.common.QiniuException;
-import com.qiniu.http.Response;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 
@@ -28,18 +24,21 @@ public class QiniuCloudResourceServiceImpl implements CloudResourceService {
 
 	private String domain = "http://7xjvvh.com1.z0.glb.clouddn.com";
 	private Auth auth = Auth.create("qRFdNgayztqHDKo8A6wqYMMqLMX3ejrXCT0482-2", "fxfi0Vi9Fz8-GXI7pvTBSaZYDtrmaWtDC1q2RTnN");
-	private String bucket = "pethub";
+	private String bucket = "miaoparty";
 	private UploadManager uploadManager = new UploadManager();
 
-//	public static void main(String[] args) {
-//		CloudResource resource = new QiniuCloudResourceServiceImpl().upload(new File("/Users/Jason/Desktop/abc.png"), CloudResourceType.STATIC, "123", true);
-//		System.out.println(resource.getFileExt());
-//		System.out.println(resource.getName());
-//		System.out.println(resource.getUrl());
-//	}
+	// public static void main(String[] args) {
+	// CloudResource resource = new QiniuCloudResourceServiceImpl().upload(new
+	// File("/Users/Jason/Desktop/abc.png"), CloudResourceType.STATIC, "123",
+	// true);
+	// System.out.println(resource.getFileExt());
+	// System.out.println(resource.getName());
+	// System.out.println(resource.getUrl());
+	// }
 
 	@Override
-	public CloudResource upload(Attachment attachment, String cloudResourceType, String toPath, boolean overwrite) {
+	public CloudResourceResponse upload(MultipartFile file, String cloudResourceType, String toPath, boolean overwrite) {
+		CloudResourceResponse response = null;
 		CloudResourceType type = null;
 		cloudResourceType = cloudResourceType == null ? "" : cloudResourceType.toUpperCase();
 		for (CloudResourceType value : CloudResourceType.values()) {
@@ -52,11 +51,12 @@ public class QiniuCloudResourceServiceImpl implements CloudResourceService {
 			}
 		}
 
-		DataHandler dh = attachment.getDataHandler();
-		File file = null;
+		File tmpFile = new File(File.listRoots()[0] + "miaoparty/temp/" + RandomStringUtils.randomAlphanumeric(16) + "/" + file.getName());
 		try {
-			InputStream ins = dh.getInputStream();
-			file = writeToFile(ins, File.listRoots()[0] + "pethub/temp/" + RandomStringUtils.randomAlphanumeric(16) + "/" + dh.getName());
+			byte[] bytes = file.getBytes();
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(tmpFile));
+			stream.write(bytes);
+			stream.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -65,24 +65,29 @@ public class QiniuCloudResourceServiceImpl implements CloudResourceService {
 		toPath = toPath == null ? "" : toPath;
 		toPath = toPath.startsWith("/") ? toPath.substring(1, toPath.length() - 1) : toPath;
 		toPath = toPath.endsWith("/") ? toPath : (toPath + "/");
-		String key = categoryPath + "/" + toPath + file.getName();
+		String key = categoryPath + "/" + toPath + tmpFile.getName();
 
-		Response resp = null;
+		com.qiniu.http.Response resp = null;
 		try {
 			if (overwrite) {
-				resp = uploadManager.put(file, key, getUpToken(key));
+				resp = uploadManager.put(tmpFile, key, getUpToken(key));
 			} else {
-				resp = uploadManager.put(file, key, getUpToken());
+				resp = uploadManager.put(tmpFile, key, getUpToken());
 			}
 			if (resp.isOK()) {
-				resource.setFileExt(getFileExtension(file));
-				resource.setName(file.getName());
+				resource.setFileExt(getFileExtension(tmpFile));
+				resource.setName(tmpFile.getName());
+				resource.setUrl(domain + "/" + key);
+
+				response = new CloudResourceResponse();
+				// response.setId(id);
+				response.setName(tmpFile.getName());
 				resource.setUrl(domain + "/" + key);
 			}
 		} catch (QiniuException e) {
 			e.printStackTrace();
 		}
-		return resource;
+		return response;
 	}
 
 	private String getUpToken() {
@@ -100,25 +105,5 @@ public class QiniuCloudResourceServiceImpl implements CloudResourceService {
 		} else {
 			return "";
 		}
-	}
-
-	private File writeToFile(InputStream ins, String path) {
-		File file = new File(path);
-		try {
-			OutputStream out = new FileOutputStream(file);
-			int read = 0;
-			byte[] bytes = new byte[1024];
-
-			while ((read = ins.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-			out.flush();
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return file;
 	}
 }

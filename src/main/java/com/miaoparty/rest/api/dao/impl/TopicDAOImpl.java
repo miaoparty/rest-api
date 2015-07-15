@@ -2,6 +2,8 @@ package com.miaoparty.rest.api.dao.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,7 @@ import com.miaoparty.rest.api.dao.TopicDAO;
 import com.miaoparty.rest.api.entity.Topic;
 
 @Component("topicDAO")
+@Transactional
 public class TopicDAOImpl implements TopicDAO {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
