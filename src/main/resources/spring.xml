@@ -14,7 +14,7 @@
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://db4free.net:3306/miaoparty" />
+		<property name="url" value="jdbc:mysql://www.miaoparty.tk:3306/miaoparty" />
 		<property name="username" value="miaoparty" />
 		<property name="password" value="miaoparty!admin" />
 	</bean>

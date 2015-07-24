@@ -53,7 +53,8 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<url>http://localhost:8080/manager/text</url>
+<!-- 					<url>http://localhost:8080/manager/text</url> -->
+					<url>http://manager.miaoparty.tk/text</url>
 					<username>tomcat</username>
 					<password>tomcat</password>
 				</configuration>
