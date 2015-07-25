@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
-            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd  http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
-	<context:component-scan base-package="com.miaoparty.rest.api.controller" />
 	<context:component-scan base-package="com.miaoparty.rest.api.dao.impl" />
 	<context:component-scan base-package="com.miaoparty.rest.api.biz.impl" />
 	<context:component-scan base-package="com.miaoparty.rest.api.service.impl" />
+
+	<!-- CXF Configuration Start -->
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<jaxrs:server id="userServer" address="/user">
+		<jaxrs:serviceBeans>
+			<ref bean="userService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="jsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<jaxrs:server id="topicServer" address="/topic">
+		<jaxrs:serviceBeans>
+			<ref bean="topicService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="jsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<jaxrs:server id="cloudResourceServer" address="/cloudResource">
+		<jaxrs:serviceBeans>
+			<ref bean="cloudResourceService" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<ref bean="jsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+
+	<!-- CXF Configuration End -->
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -30,6 +64,13 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.connection.useUnicode">true</prop>
 				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+<!-- 				<prop key="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</prop> -->
+<!-- 				<prop key="hibernate.c3p0.acquire_increment">5</prop> -->
+<!-- 				<prop key="hibernate.c3p0.idle_test_period">1800</prop> -->
+<!-- 				<prop key="hibernate.c3p0.timeout">1800</prop> -->
+<!-- 				<prop key="hibernate.c3p0.max_size">600</prop> -->
+<!-- 				<prop key="hibernate.c3p0.min_size">5</prop> -->
+<!-- 				<prop key="hibernate.c3p0.max_statements">50</prop> -->
 			</props>
 		</property>
 		<property name="packagesToScan">

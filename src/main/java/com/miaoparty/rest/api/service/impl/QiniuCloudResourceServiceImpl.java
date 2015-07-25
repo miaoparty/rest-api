@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +39,7 @@ public class QiniuCloudResourceServiceImpl implements CloudResourceService {
 	// }
 
 	@Override
-	public CloudResourceResponse upload(MultipartFile file, String cloudResourceType, String toPath, boolean overwrite) {
+	public Response upload(MultipartFile file, String cloudResourceType, String toPath, boolean overwrite) {
 		CloudResourceResponse response = null;
 		CloudResourceType type = null;
 		cloudResourceType = cloudResourceType == null ? "" : cloudResourceType.toUpperCase();
@@ -87,7 +89,7 @@ public class QiniuCloudResourceServiceImpl implements CloudResourceService {
 		} catch (QiniuException e) {
 			e.printStackTrace();
 		}
-		return response;
+		return Response.ok(response).build();
 	}
 
 	private String getUpToken() {

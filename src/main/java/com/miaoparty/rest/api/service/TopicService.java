@@ -1,14 +1,25 @@
 package com.miaoparty.rest.api.service;
 
-import com.miaoparty.rest.api.service.dto.TopicResponse;
-import com.miaoparty.rest.api.service.dto.TopicsResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  * @author Jason
  * 
  */
+@Produces("application/json")
+@Consumes("application/json")
 public interface TopicService {
-	public TopicResponse getTopic(int topicId);
 
-	public TopicsResponse getTopics();
+	@GET
+	@Path("/{topicId}")
+	public Response getTopic(@PathParam("topicId") int topicId);
+
+	@GET
+	@Path("/getTopics")
+	public Response getTopics();
 }

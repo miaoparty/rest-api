@@ -1,5 +1,7 @@
 package com.miaoparty.rest.api.service.impl;
 
+import javax.ws.rs.core.Response;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Override
-	public UserLoginResponse login(UserLoginRequest userLoginRequest) {
+	public Response login(UserLoginRequest userLoginRequest) {
 		UserLoginResponse response = new UserLoginResponse();
 		if ("pethub".equals(userLoginRequest.getUsername()) && "pethub!admin".equals(userLoginRequest.getPassword())) {
 			response.setToken("wGOef3eG7kjB0sd2");
@@ -25,7 +27,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			response.setMessage("Invalid username or password.");
 		}
-		return response;
+		return Response.ok(response).build();
 	}
 
 	// private String generateToken() {

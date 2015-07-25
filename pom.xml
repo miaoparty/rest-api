@@ -9,7 +9,7 @@
 		<hibernate.version>4.3.10.Final</hibernate.version>
 		<mysql-connector.version>5.1.35</mysql-connector.version>
 		<cxf.version>3.1.1</cxf.version>
-		<jackson.version>2.5.4</jackson.version>
+		<jackson-jaxrs.version>2.5.4</jackson-jaxrs.version>
 		<slf4j-log4j12.version>1.7.12</slf4j-log4j12.version>
 		<qiniu-java-sdk.version>[7.0.0, 7.0.99]</qiniu-java-sdk.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
@@ -53,8 +53,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-<!-- 					<url>http://localhost:8080/manager/text</url> -->
-					<url>http://manager.miaoparty.tk/text</url>
+					<url>http://localhost:8080/manager/text</url>
 					<username>tomcat</username>
 					<password>tomcat</password>
 				</configuration>
@@ -93,9 +92,24 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson-jaxrs.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

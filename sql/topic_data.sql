@@ -69,4 +69,3 @@ insert into TOPIC (AUTHOR, REFERENCE, DATE, CATEGORY_ID, TITLE, CONTENT) values 
 尾巴：中等长度并与身体成比例，尾根粗些，尾尖稍细呈圆形。
 被毛：短、很密、很好的衬托出体形，摸起来有质感。没有双层的被毛或是绒毛。
 颜色：阴影色虎斑纹出现在纯色、烟色、阴影色、阴影金色、双色、及三花色的幼猫里面不算是不好。');
-

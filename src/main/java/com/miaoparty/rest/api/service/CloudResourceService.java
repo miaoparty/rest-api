@@ -1,14 +1,18 @@
 package com.miaoparty.rest.api.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
-import com.miaoparty.rest.api.service.dto.CloudResourceResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Jason
  *
  */
-public interface CloudResourceService {
 
-	public CloudResourceResponse upload(MultipartFile file, String cloudResourceType, String toPath, boolean overwrite);
+public interface CloudResourceService {
+	@POST
+	@Path("/upload/{cloudResourceType}/{toPath}")
+	public Response upload(MultipartFile file, String cloudResourceType, String toPath, boolean overwrite);
 }
